@@ -1,0 +1,70 @@
+# Restructure poh-scheduller into a modular integration hub
+
+## Context
+
+`poh-scheduller` is not a single-purpose script — it is the **integration hub**
+that connects three worlds:
+
+- **po-helper** (Claude Code, GitHub Issues) — the source of work/plans
+- **the user's tools** (Google Calendar, Google Tasks) — where work lands
+- **external planners** (reclaim.io, and others later)
+
+We expect a lot of *different* logic here (calendar sync, issue→task sync,
+planner integrations), and it must stay **decoupled**. Each flow should be
+self-sufficient (install → configure → use) yet pluggable into the wider
+po-helper ecosystem.
+
+Today the repo is flat (only the Exchange→Google **calendar-sync** exists,
+built with DavMail). Before adding more flows, restructure.
+
+## Decision: monorepo with independent modules + `shared/` (NOT separate repos)
+
+| Concern | Monorepo modules (chosen) | Separate repos |
+|---|---|---|
+| Self-sufficiency (own compose/README/config) | ✅ | ✅ |
+| Shared Google OAuth (Calendar + Tasks) | ✅ one `shared/`, no drift | ❌ duplicated across repos |
+| Cross-module change | ✅ atomic, one CI | ❌ multi-repo PR pain |
+| Hard isolation / independent release cadence | medium | ✅ |
+| Extract a module to its own repo later | ✅ cheap (folder → repo) | — |
+
+Separate repos *now* is premature: we'd immediately duplicate the OAuth/token
+logic already built, and early iteration is usually cross-module. A folder is
+cheap to split into its own repo later if a module needs an independent release
+cadence; merging repos back is expensive. So: **start monorepo, split later.**
+
+## Target structure
+
+```
+poh-scheduller/
+  README.md                  # map of modules + how they relate
+  shared/
+    google_auth/             # OAuth bootstrap + token mgmt (Calendar + Tasks) — already built
+  modules/
+    calendar-sync/           # Exchange -> Google Calendar (DavMail + custom syncer)
+      docker-compose.yml  davmail/  syncer/  config  secrets/  README.md
+    issue-sync/              # GitHub Issues (po-helper) -> Google Tasks   [future]
+    planner-sync/            # reclaim.io and others                       [future]
+  docs/
+```
+
+## Design principle: connector with a clean boundary
+
+Each module is a **connector**: a source adapter → (transform) → a sink adapter,
+packaged as its own deployment unit. Modules share code only through `shared/`
+(opt-in), never by reaching into each other. They meet the ecosystem on a common
+substrate (Google Calendar/Tasks) and a common OAuth.
+
+## Migration steps
+
+1. Move current files into `modules/calendar-sync/`.
+2. Extract the Google OAuth/token bootstrap into `shared/google_auth/`.
+3. Add top-level `README.md` describing the module map.
+4. Keep each module independently runnable: `cd modules/<m> && docker compose up`.
+
+## Related
+
+- Linked to the calendar-sync **notification-safety redesign** (drop vdirsyncer for
+  a custom transform syncer: attendees → description text, write via Google
+  Calendar API with `sendUpdates=none`). That custom "business logic" is exactly
+  what motivates the module boundary.
+- Design spec: `docs/superpowers/specs/2026-07-15-outlook-gcal-sync-design.md`.

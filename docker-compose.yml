@@ -1,0 +1,65 @@
+# poh-scheduller / calendar-sync: DavMail (EWS->CalDAV read) + custom notification-safe syncer.
+#
+# The custom syncer (syncer/sync.py) reads Exchange via DavMail, STRIPS attendees into
+# the description, and writes to Google Calendar with sendUpdates=none — so no invitations
+# are ever emailed. Replaces vdirsyncer, which spammed attendees on upload.
+#
+# LOCAL Mac note: corporate Exchange + Google are reachable only via the host proxy at
+# 127.0.0.1:2080 (= host.docker.internal:2080 inside containers). On the Yandex VM, drop
+# every proxy arg/env/host below and reach the internet directly.
+#
+# Usage:  docker compose up -d          # davmail + continuous syncer
+#         docker compose run --rm syncer  # one-shot sync (default entrypoint)
+services:
+  davmail:
+    build:
+      context: ./davmail
+      args:
+        http_proxy: http://host.docker.internal:2080
+        https_proxy: http://host.docker.internal:2080
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
+    image: poh-scheduller/davmail:local
+    container_name: poh-davmail
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      # Substituted into davmail.properties at container start (entrypoint.sh).
+      EXCHANGE_EWS_URL: "https://${EXCHANGE_HOST:?set EXCHANGE_HOST in .env}/EWS/Exchange.asmx"
+    ports:
+      - "127.0.0.1:1080:1080"   # localhost only
+
+  syncer:
+    build:
+      context: ./syncer
+      args:
+        http_proxy: http://host.docker.internal:2080
+        https_proxy: http://host.docker.internal:2080
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
+    image: poh-scheduller/syncer:local
+    container_name: poh-syncer
+    restart: unless-stopped
+    depends_on:
+      - davmail
+    entrypoint: ["/bin/sh", "/app/sync-loop.sh"]   # daemon; override for one-shot
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      # All values come from .env (gitignored) — see .env.example.
+      # Dedicated calendar we own; reclaim.io does NOT manage it. Reclaim then
+      # syncs it into the reclaim-managed work calendar via its own policy (see README).
+      GCAL_ID: "${GCAL_ID:?set GCAL_ID in .env}"
+      DAVMAIL_URL: "http://davmail:1080/users/${EXCHANGE_UPN:?set EXCHANGE_UPN in .env}/calendar/"
+      EXCHANGE_USER: "${EXCHANGE_USER:?set EXCHANGE_USER in .env}"
+      SYNC_INTERVAL: "${SYNC_INTERVAL:-120}"
+      WINDOW_PAST_DAYS: "${WINDOW_PAST_DAYS:-7}"
+      WINDOW_FUTURE_DAYS: "${WINDOW_FUTURE_DAYS:-90}"
+      # Google over host proxy; davmail is internal -> excluded.
+      http_proxy: http://host.docker.internal:2080
+      https_proxy: http://host.docker.internal:2080
+      no_proxy: davmail,localhost,127.0.0.1
+    volumes:
+      - ./secrets:/secrets:ro
+      - ./state:/data

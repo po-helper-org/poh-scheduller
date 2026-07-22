@@ -1,0 +1,19 @@
+# Secrets — never commit real values (keep the .example templates).
+secrets/*
+!secrets/*.example
+
+# OAuth tokens / vdirsyncer state
+*.token
+google.token
+state/
+
+# local env
+.env
+
+# python venv
+.venv/
+__pycache__/
+*.pyc
+
+# serena MCP workspace
+.serena/
