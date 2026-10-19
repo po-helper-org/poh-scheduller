@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Notification-safe one-way sync: corporate Exchange -> Google Calendar "MTS-WORK".
+"""Notification-safe one-way sync: corporate Exchange -> Google Calendar "WORK-CAL".
 
 Why custom (not vdirsyncer): vdirsyncer uploads structured ATTENDEE properties to
 Google, and Google emails invitations to those attendees on create/update — this

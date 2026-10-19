@@ -10,9 +10,9 @@ Corporate Exchange (<EXCHANGE_HOST>, EWS/NTLM)
   → DavMail            gateway, exposes Exchange as CalDAV (reliable Exchange access)
   → syncer/sync.py     reads events, STRIPS attendees into the description,
                        writes via Google Calendar API with sendUpdates=none
-  → Google calendar "MTS Exchange"   (we own it; reclaim does NOT touch it)
-  → [reclaim.io Sync Policy: MTS Exchange → MTS-WORK]   (you configure this)
-  → MTS-WORK           reclaim-managed; events arrive via reclaim, not us
+  → Google calendar "Work Exchange"   (we own it; reclaim does NOT touch it)
+  → [reclaim.io Sync Policy: Work Exchange → WORK-CAL]   (you configure this)
+  → WORK-CAL           reclaim-managed; events arrive via reclaim, not us
 ```
 
 ### Why this shape
@@ -22,10 +22,10 @@ Corporate Exchange (<EXCHANGE_HOST>, EWS/NTLM)
   spammed colleagues. The custom syncer instead puts the attendee list as **text at
   the top of the description**, keeps **no** structured attendees, and writes with
   `sendUpdates=none`. Nothing is ever emailed.
-- **reclaim coexistence.** reclaim.io *manages* MTS-WORK and deletes any event it
+- **reclaim coexistence.** reclaim.io *manages* WORK-CAL and deletes any event it
   didn't create (our direct writes were cancelled within ~3s). So we never write to
-  MTS-WORK. We write to our own **"MTS Exchange"** calendar and let reclaim sync it
-  into MTS-WORK via its own policy — reclaim owns those copies, no deletion war.
+  WORK-CAL. We write to our own **"Work Exchange"** calendar and let reclaim sync it
+  into WORK-CAL via its own policy — reclaim owns those copies, no deletion war.
 
 ## Setup
 
@@ -36,12 +36,12 @@ Corporate Exchange (<EXCHANGE_HOST>, EWS/NTLM)
    browser) → writes `state/google.token`. Enable **Calendar API** *and* **CalDAV API**
    in the Cloud project; add your Google account as an OAuth test user.
 3. **Target calendar**: the syncer writes to the calendar in `GCAL_ID`
-   (docker-compose.yml) — currently the dedicated **"MTS Exchange"** calendar.
+   (docker-compose.yml) — currently the dedicated **"Work Exchange"** calendar.
 4. **Run**: `docker compose up -d` — starts DavMail + the syncer loop (every 120 s).
    One-shot: `docker compose run --rm syncer`.
 5. **reclaim.io** (you, in the reclaim UI): create a Sync Policy
-   **source = "MTS Exchange" → destination = "MTS-WORK"**, details visible. From then
-   on, Exchange meetings land in MTS-WORK (and onward wherever MTS-WORK feeds).
+   **source = "Work Exchange" → destination = "WORK-CAL"**, details visible. From then
+   on, Exchange meetings land in WORK-CAL (and onward wherever WORK-CAL feeds).
 
 ## Notes
 
