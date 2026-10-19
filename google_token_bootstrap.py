@@ -55,5 +55,5 @@ r = requests.get(
     timeout=30,
 )
 for c in r.json().get("items", []):
-    mark = "  <-- target" if c.get("summary") in ("MTS Exchange", "MTS Work") else ""
+    mark = "  <-- target" if c.get("summary") in ("Work Exchange", "Work Calendar") else ""
     print(f"  {c['summary']!r:40} {c['id']}{mark}")

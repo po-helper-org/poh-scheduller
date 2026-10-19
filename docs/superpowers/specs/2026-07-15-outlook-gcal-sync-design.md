@@ -6,18 +6,18 @@
 > **FINAL ARCHITECTURE (supersedes the vdirsyncer sections below).**
 > vdirsyncer was dropped: it uploads structured ATTENDEE to Google, which emails
 > invitations to attendees (spammed colleagues), and it offers no `sendUpdates`
-> control. Also reclaim.io *manages* the MTS-WORK calendar and deletes any event it
-> didn't create — so we cannot write to MTS-WORK directly.
+> control. Also reclaim.io *manages* the WORK-CAL calendar and deletes any event it
+> didn't create — so we cannot write to WORK-CAL directly.
 >
-> Final flow: **Exchange → DavMail → `syncer/sync.py` → Google "MTS Exchange" calendar
-> → (reclaim.io Sync Policy) → MTS-WORK.** The custom syncer strips attendees into the
+> Final flow: **Exchange → DavMail → `syncer/sync.py` → Google "Work Exchange" calendar
+> → (reclaim.io Sync Policy) → WORK-CAL.** The custom syncer strips attendees into the
 > description, keeps no structured attendees, writes via Calendar API with
 > `sendUpdates=none`, is idempotent (match by exchangeUid), handles recurring (RRULE)
-> and non-IANA timezones (→ UTC). "MTS Exchange" id:
+> and non-IANA timezones (→ UTC). "Work Exchange" id:
 > `<GCAL_ID>`.
 > See top-level `README.md`. The DavMail + verify-gate + phase-test history below still
 > applies; only the Google-write leg changed from vdirsyncer to the custom syncer.
-**Scope:** Calendar sync. MTS.Link Tasks → Google Tasks is a separate later spec.
+**Scope:** Calendar sync. Corporate-messenger Tasks → Google Tasks is a separate later spec.
 
 ## Goal
 
@@ -40,7 +40,7 @@ Corporate Exchange / O365
    └────┬───────┘
         │ Google Calendar API (native google_calendar storage)
    ┌────┴─────────┐
-   │ Google Cal   │  dedicated calendar "MTS Work"
+   │ Google Cal   │  dedicated calendar "Work Calendar"
    └──────────────┘
 ```
 
@@ -80,20 +80,20 @@ State (`~/.vdirsyncer/status/`, DavMail config, OAuth token) lives on the VM dis
    - Storage B: `google_calendar`, `client_id` / `client_secret` from our **own**
      Google Cloud project (Google ToS forbids shipping shared creds); token file
      obtained once via device/installed-app flow, then headless.
-   - Target Google calendar id = the dedicated **"MTS Work"** calendar.
+   - Target Google calendar id = the dedicated **"Work Calendar"** calendar.
    - `pair`: `conflict_resolution = "b wins"` (Outlook/Exchange as source of truth)
      — chosen so a corporate master edit always wins over a stray Google edit;
      revisit once two-way behaviour is validated.
 
 3. **Google** — one Cloud project, Calendar API enabled, OAuth "Desktop app"
-   client. Create the "MTS Work" calendar manually; put its id in vdirsyncer config.
+   client. Create the "Work Calendar" calendar manually; put its id in vdirsyncer config.
 
 ## What the demo maps to
 
 | Demo step | Mechanism | Confidence |
 |---|---|---|
 | 1-2. Create in Outlook, <5 min | vdirsyncer timer pulls via DavMail CalDAV | High |
-| 3. Appears in Google "MTS Work" | vdirsyncer writes to google_calendar storage | High |
+| 3. Appears in Google "Work Calendar" | vdirsyncer writes to google_calendar storage | High |
 | 4. Full info (attendees, description, time) | carried in the iCalendar object | Medium — attendee fidelity via CalDAV/DavMail needs verification |
 | 5. Edit attendees in Google → Outlook | vdirsyncer 2-way push back through DavMail | **Low / risky** — see below |
 | 6. Edit time in Google → Outlook | same | **Low / risky** |
@@ -137,7 +137,7 @@ Writing back to Exchange is where damage happens:
 1. **Verify gate**: DavMail ↔ corporate Exchange auth locally. Stop if it fails.
 2. Provision smallest Yandex Compute VM (Linux).
 3. Install Java + DavMail; write `.davmail.properties`; `davmail.service`.
-4. Create Google Cloud project + OAuth client; create "MTS Work" calendar.
+4. Create Google Cloud project + OAuth client; create "Work Calendar" calendar.
 5. Install vdirsyncer; write config; run `vdirsyncer discover` + first
    `vdirsyncer sync` interactively to authorize Google and seed `status/`.
 6. Add `vdirsyncer-sync.timer` (every 2–5 min). Validate two-way with a
@@ -177,15 +177,15 @@ in the real Exchange mailbox; CalDAV DELETE removed it. So the Google→CalDAV�
 write leg (demo 5-6 middle) works. (Note: a mistyped password makes DavMail return
 "Invalid credentials"/503 — not a lockout; just retry.)
 | **Ph3 — Google (own OAuth client)** — scaffolding ready, needs user creds ||||
-| T9 | create "MTS Work" calendar | 3 | target exists | ⏳ user (Google Cloud) |
+| T9 | create "Work Calendar" calendar | 3 | target exists | ⏳ user (Google Cloud) |
 | T10 | vdirsyncer discover + read back | 3,4 sink | Google side holds fields | ⏳ pending creds |
 | **Ph4 — vdirsyncer manual (not systemd yet)** — service scaffolded ||||
-| T11 | one `vdirsyncer sync`: Outlook → "MTS-WORK" full info | 1-4 e2e | whole read path | ✅ passed |
+| T11 | one `vdirsyncer sync`: Outlook → "WORK-CAL" full info | 1-4 e2e | whole read path | ✅ passed |
 | T12 | edit time in Google → sync → Outlook | 6 e2e | time write-back through full stack | ⏳ |
 | T13 | edit attendee in Google (self-only) → sync → Outlook | 5 e2e | attendee write-back + invite side-effects | ⏳ |
 
 **Ph4 T11 RESULT (2026-07-15):** first `vdirsyncer sync` uploaded the Exchange
-calendar into Google "MTS-WORK": **421 events, 377 with attendees, 367 with
+calendar into Google "WORK-CAL": **421 events, 377 with attendees, 367 with
 descriptions**, times with timezone. Full Outlook→Google read path proven e2e with
 fidelity. Token had to be converted to oauthlib format (`access_token`/`expires_at`);
 required enabling BOTH Google **Calendar API** and **CalDAV API** in the Cloud project.
@@ -193,11 +193,11 @@ Remaining: T12/T13 two-way write-back (risky), and a 2–5 min sync timer for de
 
 **Ph3/Ph4 scaffolding (2026-07-15):** vdirsyncer added to `docker-compose.yml`
 (profile `sync`, run via `docker compose run --rm vdirsyncer …`). Config pairs the
-DavMail CalDAV calendar with the Google "MTS Work" calendar; secrets via `fetch`
+DavMail CalDAV calendar with the Google "Work Calendar" calendar; secrets via `fetch`
 from `secrets/` (gitignored). Google OAuth is browserless-hostile, so `google_token_
 bootstrap.py` mints `state/google.token` on the Mac once (own OAuth Desktop client),
 and the container reuses it via the `./state:/data` bind mount. Blocked on the user
-creating the Google Cloud OAuth client + "MTS Work" calendar.
+creating the Google Cloud OAuth client + "Work Calendar" calendar.
 
 **Two highest unknowns the tests target:** T6 (attendee fidelity through CalDAV/DavMail)
 and T3/T4/T13 (write to Exchange + invitation side-effects — organizer-only, may spam
@@ -227,6 +227,6 @@ self-cleared.)
 
 ## Out of scope (this spec)
 
-- MTS.Link Tasks → Google Tasks (no confirmed public Tasks API; separate spec).
+- Corporate-messenger Tasks → Google Tasks (no confirmed public Tasks API; separate spec).
 - Real-time push (Graph subscriptions) — polling every 2–5 min is enough.
 - Contacts/mail sync (DavMail can, we don't need it).
