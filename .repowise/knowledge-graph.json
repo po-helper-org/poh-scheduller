@@ -1,0 +1,464 @@
+{
+  "version": "1.0.0",
+  "schema_version": 1,
+  "project": {
+    "name": "poh-scheduller",
+    "is_monorepo": false,
+    "total_files": 15,
+    "entry_points": [],
+    "tech_stack": [
+      {
+        "name": "Docker Compose",
+        "version": null,
+        "category": "infra"
+      }
+    ],
+    "entry_candidates": [],
+    "graph_mode": "sparse"
+  },
+  "nodes": [
+    {
+      "id": "file:README.md",
+      "type": "document",
+      "filePath": "README.md",
+      "language": "markdown",
+      "symbolCount": 0,
+      "lineCount": 78,
+      "complexity": "simple",
+      "pagerank": 0.029197,
+      "communityId": 3,
+      "tags": [],
+      "summary": "Project overview and entry point for new readers."
+    },
+    {
+      "id": "file:davmail/Dockerfile",
+      "type": "service",
+      "filePath": "davmail/Dockerfile",
+      "language": "dockerfile",
+      "symbolCount": 2,
+      "lineCount": 24,
+      "complexity": "simple",
+      "pagerank": 0.029197,
+      "communityId": 4,
+      "tags": [
+        "config",
+        "infra"
+      ],
+      "summary": "Container image build definition."
+    },
+    {
+      "id": "file:davmail/entrypoint.sh",
+      "type": "file",
+      "filePath": "davmail/entrypoint.sh",
+      "language": "shell",
+      "symbolCount": 0,
+      "lineCount": 15,
+      "complexity": "simple",
+      "pagerank": 0.029197,
+      "communityId": 5,
+      "tags": [],
+      "summary": "Application module entrypoint.",
+      "primaryOwner": "ALeks ishmanov"
+    },
+    {
+      "id": "file:docker-compose.yml",
+      "type": "service",
+      "filePath": "docker-compose.yml",
+      "language": "yaml",
+      "symbolCount": 0,
+      "lineCount": 70,
+      "complexity": "simple",
+      "pagerank": 0.029197,
+      "communityId": 6,
+      "tags": [
+        "config",
+        "infra"
+      ],
+      "summary": "Multi-container service orchestration for local development."
+    },
+    {
+      "id": "file:docs/issues/2.md",
+      "type": "document",
+      "filePath": "docs/issues/2.md",
+      "language": "markdown",
+      "symbolCount": 0,
+      "lineCount": 85,
+      "complexity": "simple",
+      "pagerank": 0.029197,
+      "communityId": 7,
+      "tags": [],
+      "summary": "Documentation: 2.md."
+    },
+    {
+      "id": "file:docs/issues/3.md",
+      "type": "document",
+      "filePath": "docs/issues/3.md",
+      "language": "markdown",
+      "symbolCount": 0,
+      "lineCount": 172,
+      "complexity": "moderate",
+      "pagerank": 0.029197,
+      "communityId": 8,
+      "tags": [],
+      "summary": "Documentation: 3.md."
+    },
+    {
+      "id": "file:docs/restructure-issue.md",
+      "type": "document",
+      "filePath": "docs/restructure-issue.md",
+      "language": "markdown",
+      "symbolCount": 0,
+      "lineCount": 79,
+      "complexity": "simple",
+      "pagerank": 0.029197,
+      "communityId": 9,
+      "tags": [],
+      "summary": "Documentation: restructure-issue.md."
+    },
+    {
+      "id": "file:docs/superpowers/specs/2026-07-15-outlook-gcal-sync-design.md",
+      "type": "document",
+      "filePath": "docs/superpowers/specs/2026-07-15-outlook-gcal-sync-design.md",
+      "language": "markdown",
+      "symbolCount": 0,
+      "lineCount": 330,
+      "complexity": "moderate",
+      "pagerank": 0.029197,
+      "communityId": 10,
+      "tags": [],
+      "summary": "Documentation: 2026-07-15-outlook-gcal-sync-design.md."
+    },
+    {
+      "id": "file:google_token_bootstrap.py",
+      "type": "file",
+      "filePath": "google_token_bootstrap.py",
+      "language": "python",
+      "symbolCount": 10,
+      "lineCount": 57,
+      "complexity": "moderate",
+      "pagerank": 0.029197,
+      "communityId": 1,
+      "tags": [],
+      "summary": "Application module google_token_bootstrap (10 symbols).",
+      "primaryOwner": "ALeks ishmanov"
+    },
+    {
+      "id": "file:phase1_ews.sh",
+      "type": "file",
+      "filePath": "phase1_ews.sh",
+      "language": "shell",
+      "symbolCount": 3,
+      "lineCount": 157,
+      "complexity": "moderate",
+      "pagerank": 0.029197,
+      "communityId": 2,
+      "tags": [],
+      "summary": "Application module phase1_ews defining soap, pass, fail.",
+      "primaryOwner": "ALeks ishmanov"
+    },
+    {
+      "id": "file:phase2_caldav.sh",
+      "type": "file",
+      "filePath": "phase2_caldav.sh",
+      "language": "shell",
+      "symbolCount": 2,
+      "lineCount": 120,
+      "complexity": "moderate",
+      "pagerank": 0.029197,
+      "communityId": 2,
+      "tags": [],
+      "summary": "Application module phase2_caldav defining pass, fail.",
+      "primaryOwner": "ALeks ishmanov"
+    },
+    {
+      "id": "file:syncer/Dockerfile",
+      "type": "service",
+      "filePath": "syncer/Dockerfile",
+      "language": "dockerfile",
+      "symbolCount": 1,
+      "lineCount": 8,
+      "complexity": "simple",
+      "pagerank": 0.029197,
+      "communityId": 11,
+      "tags": [
+        "config",
+        "infra"
+      ],
+      "summary": "Container image build definition."
+    },
+    {
+      "id": "file:syncer/sync-loop.sh",
+      "type": "file",
+      "filePath": "syncer/sync-loop.sh",
+      "language": "shell",
+      "symbolCount": 0,
+      "lineCount": 8,
+      "complexity": "simple",
+      "pagerank": 0.029197,
+      "communityId": 12,
+      "tags": [],
+      "summary": "Application module sync-loop.",
+      "primaryOwner": "ALeks ishmanov"
+    },
+    {
+      "id": "file:syncer/sync.py",
+      "type": "file",
+      "filePath": "syncer/sync.py",
+      "language": "python",
+      "symbolCount": 21,
+      "lineCount": 270,
+      "complexity": "complex",
+      "pagerank": 0.029197,
+      "communityId": 0,
+      "tags": [],
+      "summary": "Application module sync defining _read, google_creds, fetch_exchange_events.",
+      "primaryOwner": "ALeks ishmanov"
+    },
+    {
+      "id": "file:verify_ews.sh",
+      "type": "file",
+      "filePath": "verify_ews.sh",
+      "language": "shell",
+      "symbolCount": 0,
+      "lineCount": 63,
+      "complexity": "simple",
+      "pagerank": 0.029197,
+      "communityId": 2,
+      "tags": [],
+      "summary": "Application module verify_ews.",
+      "primaryOwner": "ALeks ishmanov"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:google_token_bootstrap.py",
+      "target": "file:external:calendar",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:google_token_bootstrap.py",
+      "target": "file:external:google_auth_oauthlib.flow",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:google_token_bootstrap.py",
+      "target": "file:external:pathlib",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:google_token_bootstrap.py",
+      "target": "file:external:requests",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:phase1_ews.sh",
+      "target": "file:external:$(dirname \"$0\")/.env",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:phase2_caldav.sh",
+      "target": "file:external:$(dirname \"$0\")/.env",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:datetime",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:google.auth.transport.requests",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:google.oauth2.credentials",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:hashlib",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:icalendar",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:json",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:os",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:re",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:requests",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:sys",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:syncer/sync.py",
+      "target": "file:external:zoneinfo",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:verify_ews.sh",
+      "target": "file:external:$(dirname \"$0\")/.env",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 1.0
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:application",
+      "name": "Application",
+      "description": "",
+      "nodeIds": [
+        "file:README.md",
+        "file:davmail/Dockerfile",
+        "file:davmail/entrypoint.sh",
+        "file:docker-compose.yml",
+        "file:google_token_bootstrap.py",
+        "file:phase1_ews.sh",
+        "file:phase2_caldav.sh",
+        "file:syncer/Dockerfile",
+        "file:syncer/sync-loop.sh",
+        "file:syncer/sync.py",
+        "file:verify_ews.sh"
+      ],
+      "display_order": 0,
+      "order_basis": "canonical"
+    },
+    {
+      "id": "layer:docs-tooling",
+      "name": "Docs & Tooling",
+      "description": "",
+      "nodeIds": [
+        "file:docs/issues/2.md",
+        "file:docs/issues/3.md",
+        "file:docs/restructure-issue.md",
+        "file:docs/superpowers/specs/2026-07-15-outlook-gcal-sync-design.md"
+      ],
+      "display_order": 1,
+      "order_basis": "canonical"
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "target_path": "README.md",
+      "page_type": "repo_overview",
+      "title": "README.md",
+      "depth": 0,
+      "kind": "overview",
+      "reason": "Start here for the end-to-end picture before diving into the code.",
+      "layer_id": "layer:application"
+    },
+    {
+      "order": 2,
+      "target_path": "google_token_bootstrap.py",
+      "page_type": "file_page",
+      "title": "google_token_bootstrap.py",
+      "depth": 0,
+      "kind": "code",
+      "reason": "The walk's anchor \u2014 its imports fan out the widest in a repo with no single entry point.",
+      "layer_id": "layer:application"
+    },
+    {
+      "order": 3,
+      "target_path": "syncer/sync.py",
+      "page_type": "file_page",
+      "title": "sync.py",
+      "depth": 1,
+      "kind": "code",
+      "reason": "Not on the resolved import paths \u2014 import resolution is incomplete for this repo, so links may be missing.",
+      "layer_id": "layer:application"
+    }
+  ],
+  "modules": [
+    {
+      "id": "module:application",
+      "name": "Application",
+      "path": "",
+      "layerId": "layer:application",
+      "nodeIds": [
+        "file:README.md",
+        "file:davmail/Dockerfile",
+        "file:davmail/entrypoint.sh",
+        "file:docker-compose.yml",
+        "file:google_token_bootstrap.py",
+        "file:phase1_ews.sh",
+        "file:phase2_caldav.sh",
+        "file:syncer/Dockerfile",
+        "file:syncer/sync-loop.sh",
+        "file:syncer/sync.py",
+        "file:verify_ews.sh"
+      ],
+      "wholeLayer": true,
+      "language": "shell"
+    },
+    {
+      "id": "module:docs",
+      "name": "Docs & Tooling",
+      "path": "docs",
+      "layerId": "layer:docs-tooling",
+      "nodeIds": [
+        "file:docs/issues/2.md",
+        "file:docs/issues/3.md",
+        "file:docs/restructure-issue.md",
+        "file:docs/superpowers/specs/2026-07-15-outlook-gcal-sync-design.md"
+      ],
+      "wholeLayer": true,
+      "language": "markdown"
+    }
+  ]
+}

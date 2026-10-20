@@ -1,0 +1,95 @@
+{
+  "last_sync_commit": "04cc3f47aff9726fc09d913a4e20a1723f3fea68",
+  "total_pages": 17,
+  "docs_mode": "deterministic",
+  "docs_enabled": false,
+  "phase_timings": {
+    "run": 0.13
+  },
+  "git_history_coverage": {
+    "eligible_files": 7,
+    "files_with_history": 7,
+    "unavailable_files": 0,
+    "retained_commits": 7,
+    "per_file_limit": 500,
+    "global_commits": 1,
+    "deep_commits": 0,
+    "recent_files": 7,
+    "deep_files": 0,
+    "fallback_files": 0,
+    "complete_through_depth": 1,
+    "workers": 1
+  },
+  "run_mode": "standard",
+  "git_tier": "full",
+  "index_scope": {
+    "version": 1,
+    "run_mode": "standard",
+    "content_provenance": "template",
+    "git_tier": "full",
+    "git_commit_cap": 500,
+    "git_history_coverage": {
+      "eligible_files": 7,
+      "files_with_history": 7,
+      "unavailable_files": 0,
+      "retained_commits": 7,
+      "per_file_limit": 500,
+      "global_commits": 1,
+      "deep_commits": 0,
+      "recent_files": 7,
+      "deep_files": 0,
+      "fallback_files": 0,
+      "complete_through_depth": 1,
+      "workers": 1
+    },
+    "file_pages": {
+      "configured_cap": null,
+      "effective_cap": null,
+      "eligible": 2,
+      "generated": 2,
+      "omitted": 0
+    },
+    "analysis": {
+      "unavailable": [],
+      "skipped": []
+    },
+    "upgrade": {
+      "status": "pending",
+      "retryable": true,
+      "completed_stages": [],
+      "next_stage": null
+    },
+    "provider": {
+      "name": null,
+      "model": null,
+      "embedder": "mock",
+      "reused": false,
+      "model_cost_possible": false
+    },
+    "search": {
+      "full_text": "available",
+      "semantic": "unavailable",
+      "next_command": "repowise reindex"
+    }
+  },
+  "knowledge_graph": {
+    "version": "1.0.0",
+    "node_count": 15,
+    "layer_count": 2,
+    "tour_steps": 3,
+    "has_summaries": true,
+    "fingerprint": "f58d2eb5dd381dcf"
+  },
+  "store_format_version": 2,
+  "written_by_version": "0.53.0",
+  "config_fingerprint": "00dc8b6958c80119d1b32b1c7c9bdd5234f0724563120bf3eea09c987bdde2f8",
+  "config_dependency_fingerprints": {
+    "traversal": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "git_history": "2a677ae5e4dd2016ef1191ac7c08539df480c7e3110576b8b1f71312fb185d67",
+    "health": "594e0c42a3a22127976d1564801ee46ca91f3d761eb56819f9da91ba062024ad",
+    "generation": "f5b7577bdb41ceea81ef4d67218b99dd94011493d5118197cec1adc5ed006161",
+    "state_only": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "other": "a02da1bf1d3b8d68f091d2477cb6f00a014e5338c0842643784ff0bbbf0eb25d"
+  },
+  "renderer_fingerprint": "7262852f6eb7249d435edbdc1d9c9b77adc8ce2d0550583300f1258a4e2346b1:cb855f5a9f489cda155978f8e40d4aa190ada5a660ae8e29f41bc17b25f97c30"
+}
